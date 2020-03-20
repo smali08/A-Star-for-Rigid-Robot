@@ -4,7 +4,6 @@ import copy
 import math
 import time
 
-
 #Variables
 StartNode = [50,50,0,0,0,0]
 GoalNode = [150,150]
@@ -128,10 +127,11 @@ def IsVisitedNode(Node):
         TempY = Node[1] - TempY
     else:
         TempY = Node[1] + (0.5-TempY)
-    if( NodeInfo[int(TempX*2)][int(TempY*2)][int(TempTheta)] > 0 and NodeInfo[int(TempX*2)][int(TempY*2)][int(TempTheta)] < Node[5] ):
+
+    if(NodeInfo[int(TempX*2)][int(TempY*2)][int(TempTheta)] == 1):
         return True
     else:
-        NodeInfo[int(TempX*2)][int(TempY*2)][int(TempTheta)] = Node[5]
+        NodeInfo[int(TempX*2)][int(TempY*2)][int(TempTheta)]=1
         return False
 
 def AddNode(Node):
@@ -166,7 +166,7 @@ def ActionMove(Node):
         CostToCome = Node[5] + EuclieanDistance(NewX,NewY,Node[0],Node[1])
         CostNode = CostToCome + EuclieanDistance(NewX,NewY,GoalNode[0],GoalNode[1])
         NewCost = CostNode
-        NewNode = [round(NewX,2),round(NewY,2),int(NewTheta),round(NewCost,2),CurrentIndex,int(CostToCome)]
+        NewNode = [round(NewX,2),round(NewY,2),int(NewTheta),round(NewCost,2),CurrentIndex,CostToCome]
         Goal = AddNode(NewNode)
         if(Goal):
             return True
