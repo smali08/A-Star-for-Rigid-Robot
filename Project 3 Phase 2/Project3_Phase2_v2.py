@@ -5,14 +5,14 @@ import math
 import time
 
 #Variables
-StartNode = [2,2,0,0,0]
-GoalNode = [5,5]
+StartNode = [50,50,0,0,0]
+GoalNode = [150,150]
 CurrentNode = []
 UnvisitedNodes = []
 VisitedNodes = []
 CurrentIndex = 0
-Clearance = 0
-Radius = 0
+Clearance = 1
+Radius = 1
 StepSize = 1
 Theta = 30
 
@@ -110,7 +110,7 @@ def InObstacleSpace(Node):
         return False
 
 
-print(InObstacleSpace([3.27,2.75]))
+# print(InObstacleSpace([3.27,2.75]))
 
 NodeInfo = np.zeros(np.array((601,401,12)))
 
@@ -141,20 +141,31 @@ def IsVisitedNode(Node):
 # print(IsVisitedNode([3.4,3.1,30,0,1]))
 
 def AddNode(Node):
+    global CurrentNode
     global UnvisitedNodes
     # print("Node",Node,"Obstacle",InObstacleSpace(Node),"Visited",IsVisitedNode(Node))
     if not(InObstacleSpace(Node)) and  not(IsVisitedNode(Node)):
-        print("AddingNode")
+        # print("AddingNode")
         UnvisitedNodes.append(Node)
+        ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1)
+        # plt.pause(0.001)
+        if(EuclieanDistance(GoalNode[0],GoalNode[1],Node[0],Node[1]) <= 1.5):
+            # VisitedNodes.append(CurrentNode)
+            ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1,color = 'r')
+            CurrentNode = Node
+            return True
+        else:
+            return False
+
+
 
 # AddNode([3.27,2.75,30,5.22,1])
 # AddNode([3.4,3.1,30,0,1])
 # print(UnvisitedNodes)
 fig, ax = plt.subplots()
+
+
 def ActionMove(Node):
-    global Theta
-    global GoalNode
-    global CurrentIndex
     PossibleMoves = int(360/Theta)
     # print("Possible Moves",PossibleMoves)
     NewList = []
@@ -162,66 +173,56 @@ def ActionMove(Node):
         NewTheta = i*Theta
         NewX = Node[0] + StepSize*(math.cos(math.radians(NewTheta)))
         NewY = Node[1] + StepSize*(math.sin(math.radians(NewTheta)))
-        CostNode = EuclieanDistance(NewX,NewY,Node[0],Node[1]) + EuclieanDistance(NewX,NewY,GoalNode[0],GoalNode[1])
-        NewCost = Node[3] + CostNode
+        CostNode = EuclieanDistance(NewX,NewY,StartNode[0],StartNode[1]) + EuclieanDistance(NewX,NewY,GoalNode[0],GoalNode[1])
+        NewCost = CostNode
         NewNode = [round(NewX,2),round(NewY,2),int(NewTheta),round(NewCost,2),CurrentIndex]
-        NewList.append(NewNode)
-        # print("Angle",i*Theta,"NewNode",NewNode,"Parent",Node)
-        # ax.quiver(Node[0], Node[1], NewNode[0]-Node[0], NewNode[1]-Node[1],units='xy' ,scale=1)
-    print("NewList",NewList)
-    # NewList.sort(key = lambda x: x[3])
-    # print("Sorted",NewList)
-    # plt.show()
-    return NewList
-# NewList = ActionMove(StartNode)
-# UnvisitedNodes.append(StartNode)
-
-# plt.grid()
-#
-# ax.set_aspect('equal')
-#
-# plt.xlim(0,5)
-# plt.ylim(0,5)
-#
-# plt.title('How to plot a vector in matplotlib ?',fontsize=10)
-# Goal = False
-def AddNodes(List):
-    global Goal
-    global CurrentNode
-    global Theta
-    global Info
-    global UnvisitedNodes
-    ListCopy = copy.deepcopy(List)
-    for n,i in enumerate(ListCopy):
-        if(0 <= i[0]-math.floor(i[0]) < 0.25):
-            i[0] = math.floor(i[0])
-        elif(0.25 <= i[0]-math.floor(i[0]) < 0.75):
-            i[0] = math.floor(i[0]) + 0.5
-        else:
-            i[0] = math.ceil(i[0])
-        if(0 <= i[1]-math.floor(i[1]) < 0.25):
-            i[1] = math.floor(i[1])
-        elif(0.25 <= i[1]-math.floor(i[1]) < 0.75):
-            i[1] = math.floor(i[1]) + 0.5
-        else:
-            i[1] = math.ceil(i[1])
-        if(i[2] is not 0):
-            i[2] = i[2]/Theta
-        if(Info[int(2*i[0])][int(2*i[1])][int(i[2])] == 0):
-            Info[int(2*i[0])][int(2*i[1])][int(i[2])] = 1
-            UnvisitedNodes.append(List[n])
-            if(EuclieanDistance(GoalNode[0],GoalNode[1],List[n][0],List[n][1]) <= 1.5):
-                Goal = True
-
-            ax.quiver(CurrentNode[0], CurrentNode[1], List[n][0]-CurrentNode[0], List[n][1]-CurrentNode[1],units='xy' ,scale=1)
-            plt.pause(0.001)
-        else:
-            print("Duplicate",i)
+        Goal = AddNode(NewNode)
         if(Goal):
-            CurrentNode = List[n]
-    print("Length",len(UnvisitedNodes), "Unvisited",UnvisitedNodes)
-    UnvisitedNodes.sort(key = lambda x: x[3])
-    print("Sorted",UnvisitedNodes)
+            return True
+    else:
+        return False
+
+# def GeneratePath(CurrentNode):
+#     global CurrentNodeIndex
+#     Path.append(CurrentNodeIndex)
+#     while(Path[0] != 0):
+#         Path.insert(0,ParentNodeIndex[node.index(CurrentNode)])
+#         CurrentNode = node[Path[0]]
+#
+#     for i in range(len(Path)):
+#         NodePath.append(node[Path[i]])
+Path = []
+def BackTrack(Node):
+    global CurrentNode
+    Path.append(Node)
+    print("Path",Path)
+    while(Path[0][4] != 0):
+        print(VisitedNodes[Path[0][4]])
+        Path.insert(0,VisitedNodes[CurrentNode[4]])
+        ax.quiver(Path[0][0], Path[0][1], CurrentNode[0]-Path[0][0], CurrentNode[1]-Path[0][1],  units='xy' ,scale=1,color = 'r')
+
+        # ax.quiver(CurrentNode[0],CurrentNode[1],Path[0][0]-CurrentNode[0], Path[0][1]-CurrentNode[1],  units='xy' ,scale=1,color = 'r')
+        # plt.pause(0.1)
+        CurrentNode=Path[0]
+    Path.insert(0,VisitedNodes[0])
+    ax.quiver(Path[0][0], Path[0][1], CurrentNode[0]-Path[0][0], CurrentNode[1]-Path[0][1],  units='xy' ,scale=1,color = 'r')
+
+    print(Path)
+    return Path
+
+
+
+
+
+plt.grid()
+
+ax.set_aspect('equal')
+
+plt.xlim(0,300)
+plt.ylim(0,200)
+
+plt.title('How to plot a vector in matplotlib ?',fontsize=10)
+Goal = False
 
 
 # AddNodes(NewList)
@@ -229,24 +230,29 @@ def AddNodes(List):
 # plt.matshow(Info)
 # plt.show()
 #
-# CurrentIndex=0
-# print("Length",len(UnvisitedNodes), "Unvisited",UnvisitedNodes)
-# CurrentNode = copy.deepcopy(StartNode)
-# print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
-# UnvisitedNodes.append(CurrentNode)
-# while not(Goal):
-#     VisitedNodes.append(UnvisitedNodes.pop(0))
-#     NewNodes = ActionMove(CurrentNode)
-#     AddNodes(NewNodes)
-#     if(Goal):
-#         print(CurrentNode)
-#         break
-#     CurrentIndex += 1
-#     CurrentNode = UnvisitedNodes[0]
-#     print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
+print("Length",len(UnvisitedNodes), "Unvisited",UnvisitedNodes)
+CurrentNode = copy.deepcopy(StartNode)
+print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
+UnvisitedNodes.append(CurrentNode)
+while(1):
+    VisitedNodes.append(UnvisitedNodes.pop(0))
+    Goal = ActionMove(CurrentNode)
+    UnvisitedNodes.sort(key = lambda x: x[3])
+    if(Goal):
+        print("Goal",CurrentNode)
+        break
+
+    CurrentIndex += 1
+    CurrentNode = UnvisitedNodes[0]
+    print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
+    # print("UnvisitedNodes",UnvisitedNodes)
+    # print("VisitedNodes",VisitedNodes)
+Path = BackTrack(CurrentNode)
+print(Path)
 #
 #
-# # plt.savefig('how_to_plot_a_vector_in_matplotlib_fig3.png', bbox_inches='tight')
+plt.savefig('how_to_plot_a_vector_in_matplotlib_fig3.png', bbox_inches='tight')
 #
+print("SAved")
 # plt.show()
-# plt.close()
+plt.close()
