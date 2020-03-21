@@ -159,7 +159,7 @@ def GenerateWorkspace(Obstaclesx,Obstaclesy):
     plt.plot(StartNode[0], StartNode[1], "gd", markersize = '2')
     plt.plot(GoalNode[0], GoalNode[1], "gd", markersize = '2')
     plt.scatter(Obstaclesx,Obstaclesy,color = 'b')
-    # plot.show()
+    # plt.pause(10)
 
 
 NodeInfo = np.zeros(np.array((601,401,12)))  # Store visited Nodes
@@ -250,10 +250,11 @@ Path = []  #To store the path
 def BackTrack(Node):
     global CurrentNode
     Path.append(Node)
-    # print("Path",Path)
+    print("Path",Path,CurrentNode)
     while(Path[0][4] != 0):
         print(VisitedNodes[Path[0][4]])
         Path.insert(0,VisitedNodes[CurrentNode[4]])
+        print("NewPAth")
         ax.quiver(Path[0][0], Path[0][1], CurrentNode[0]-Path[0][0], CurrentNode[1]-Path[0][1],  units='xy' ,scale=1,color = 'r')
         CurrentNode=Path[0]
     Path.insert(0,VisitedNodes[0])
@@ -261,20 +262,12 @@ def BackTrack(Node):
     plt.pause(0.001)
     return Path
 
-
-
-
-
 plt.grid()
-
 ax.set_aspect('equal')
-
 plt.xlim(0,300)
 plt.ylim(0,200)
-
 plt.title('A-Star Algorithm',fontsize=10)
 Goal = False
-
 Radius,Clearance,StepSize,Theta = GetParameters()
 X,Y = GenerateMap()
 StartNode = GetStart()
@@ -286,18 +279,29 @@ CurrentNode = copy.deepcopy(StartNode)
 # print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
 UnvisitedNodes.append(CurrentNode)
 while(1):
+    # VisitedNodes.append(UnvisitedNodes.remove(CurrentNode))
     VisitedNodes.append(UnvisitedNodes.pop(0))
     Goal = ActionMove(CurrentNode)
+    # print("Lenght",len(UnvisitedNodes))
     UnvisitedNodes.sort(key = lambda x: x[3])
+    if(len(UnvisitedNodes)>4000):                                 #Removing Old nodes with higher cost to reduce the runtime
+        UnvisitedNodes = UnvisitedNodes[:3000]
     if(Goal):
         print("Goal",CurrentNode)
+        break
+    elif(len(UnvisitedNodes) == 0):
+        print(" No SOlution")
         break
 
     CurrentIndex += 1
     CurrentNode = UnvisitedNodes[0]
-Path = BackTrack(CurrentNode)
-print(Path)
+
 EndTime = time.time()
-print("Solved" , EndTime - StartTime)
+if(Goal):
+    print("Solved" , EndTime - StartTime)
+    Path = BackTrack(CurrentNode)
+    print(Path)
+    EndTime = time.time()
+    print("Solved" , EndTime - StartTime)
 plt.show()
 plt.close()
