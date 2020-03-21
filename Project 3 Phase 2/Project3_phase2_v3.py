@@ -5,6 +5,7 @@ import math
 import time
 
 #Variables
+Workspace = [300,200]
 StartNode = [50,50,0,0,0,0]
 GoalNode = [150,150]
 CurrentNode = []
@@ -53,57 +54,105 @@ def GetGoal():
 def EuclieanDistance(x2,y2,x1,y1):
     return math.sqrt((x2-x1)**2  + (y2-y1)**2)
 
+
+def GenerateMap():
+    Obstaclesx,Obstaclesy = [],[]
+    for x in range(301):
+        for y in range(201):
+
+            if((x-225)**2 + (y-150)**2 <= (25 + Clearance + Radius)**2):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if(((x-150)**2/(40 + Clearance + Radius)**2 + (y-100)**2/(20 + Clearance + Radius)**2) <= 1):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if ((y-(0.6*x))>=(-125 - Clearance - Radius) and (y-(-0.6*x))<=(175 + Clearance + Radius) and (y-(0.6*x))<=(-95 + Clearance + Radius) and (y-(-0.6*x))>=(145 - Clearance - Radius)):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if((y-(13*x))<=(-140 + Clearance + Radius) and (y-(1*x))>=(100 - Clearance - Radius) and y <= (185 + Clearance + Radius) and (y-(1.4*x)>=(80 - Clearance - Radius))):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if ((y-(-1.2*x))>=(210 - Clearance - Radius) and (y-(1.2*x))>=(30 - Clearance - Radius) and (y-(-1.4*x))<=(290 + Clearance + Radius) and (y-(-2.6*x))>=(280 - Clearance - Radius) and y<=(185 + Clearance + Radius)):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if ((y - (1.73)*x + 135 >= 0 - Clearance - Radius) and (y + (0.58)*x - 96.35  <= 0 + Clearance + Radius) and (y - (1.73)*x - 15.54 <= 0 + Clearance + Radius) and (y + (0.58)*x - 84.81 >= 0 - Clearance - Radius)):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if ((y <=  Clearance + Radius)):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if ((x <= Clearance + Radius)):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if ((x >= 300  - (Clearance + Radius)  )):
+                # Map[200 - y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            if ((200 >= y >=  200 - (Clearance + Radius))):
+                # Map[200-y][x] = 1
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+
+    return Obstaclesx,Obstaclesy
+
+# Map = GenerateMap()
+def GenerateWorkspace(Obstaclesx,Obstaclesy):
+    plt.plot(Workspace[0],Workspace[1])
+    plt.plot(StartNode[0], StartNode[1], "gd", markersize = '2')
+    plt.plot(GoalNode[0], GoalNode[1], "gd", markersize = '2')
+    plt.scatter(Obstaclesx,Obstaclesy,color = 'b')
+    # plot.show()
+
+
 def InObstacleSpace(Node):
     x = Node[0]
     y = Node[1]
-    if((x-225)**2 + (y-150)**2 <= (25 + Clearance + Radius)**2):
-        return True
-        Map[200-y][x] = 1
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    if(((x-150)**2/(40 + Clearance + Radius)**2 + (y-100)**2/(20 + Clearance + Radius)**2) <= 1):
-        return True
-        Map[200-y][x] = 1
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    if ((y-(0.6*x))>=(-125 - Clearance - Radius) and (y-(-0.6*x))<=(175 + Clearance + Radius) and (y-(0.6*x))<=(-95 + Clearance + Radius) and (y-(-0.6*x))>=(145 - Clearance - Radius)):
-        return True
-        Map[200-y][x] = 1
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    if((y-(13*x))<=(-140 + Clearance + Radius) and (y-(1*x))>=(100 - Clearance - Radius) and y <= (185 + Clearance + Radius) and (y-(1.4*x)>=(80 - Clearance - Radius))):
-        return True
-        Map[200-y][x] = 1
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
     if ((y-(-1.2*x))>=(210 - Clearance - Radius) and (y-(1.2*x))>=(30 - Clearance - Radius) and (y-(-1.4*x))<=(290 + Clearance + Radius) and (y-(-2.6*x))>=(280 - Clearance - Radius) and y<=(185 + Clearance + Radius)):
         return True
-        Map[200-y][x] = 1
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    if ((y - (1.73)*x + 135 >= 0 - Clearance - Radius) and (y + (0.58)*x - 96.35  <= 0 + Clearance + Radius) and (y - (1.73)*x - 15.54 <= 0 + Clearance + Radius) and (y + (0.58)*x - 84.81 >= 0 - Clearance - Radius)):
+    elif ((y - (1.73)*x + 135 >= 0 - Clearance - Radius) and (y + (0.58)*x - 96.35  <= 0 + Clearance + Radius) and (y - (1.73)*x - 15.54 <= 0 + Clearance + Radius) and (y + (0.58)*x - 84.81 >= 0 - Clearance - Radius)):
         return True
-        Map[200-y][x] = 1
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    if ((y <=  Clearance + Radius)):
+    elif((x-225)**2 + (y-150)**2 <= (25 + Clearance + Radius)**2):
         return True
-        Map[200-y][x] = 1
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    if ((x <= Clearance + Radius)):
+    elif(((x-150)**2/(40 + Clearance + Radius)**2 + (y-100)**2/(20 + Clearance + Radius)**2) <= 1):
         return True
-        Map[200-y][x] = 1
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    if ((x >= 300  - (Clearance + Radius)  )):
+    elif ((y-(0.6*x))>=(-125 - Clearance - Radius) and (y-(-0.6*x))<=(175 + Clearance + Radius) and (y-(0.6*x))<=(-95 + Clearance + Radius) and (y-(-0.6*x))>=(145 - Clearance - Radius)):
         return True
-        Map[200 - y][x] = 1
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    if ((200 >= y >=  200 - (Clearance + Radius))):
+    elif((y-(13*x))<=(-140 + Clearance + Radius) and (y-(1*x))>=(100 - Clearance - Radius) and y <= (185 + Clearance + Radius) and (y-(1.4*x)>=(80 - Clearance - Radius))):
         return True
-        Map[200-y][x] = 1
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif ((y <=  Clearance + Radius)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif ((x <= Clearance + Radius)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif ((x >= 300  - (Clearance + Radius)  )):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif ((200 >= y >=  200 - (Clearance + Radius))):
+        return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
     else:
@@ -134,16 +183,29 @@ def IsVisitedNode(Node):
         NodeInfo[int(TempX*2)][int(TempY*2)][int(TempTheta)]=1
         return False
 
+plotX,plotY,plotX2,plotY2 = [],[],[],[]
 def AddNode(Node):
     global CurrentNode
     global UnvisitedNodes
+    global plotX,plotY,plotX2,plotY2
     if not(InObstacleSpace(Node)) and  not(IsVisitedNode(Node)):
         UnvisitedNodes.append(Node)
-        ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1)
+        plotX.append(CurrentNode[0])
+        plotY.append(CurrentNode[1])
+        plotX2.append( Node[0]-CurrentNode[0] )
+        plotY2.append( Node[1]-CurrentNode[1] )
+        if(len(plotX)%5000 == 0):
+            ax.quiver(plotX, plotY, plotX2, plotY2,units='xy' ,scale=1)
+            plt.pause(0.001)
+            plotX,plotY,plotX2,plotY2 = [],[],[],[]
+        # ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1)
         # plt.pause(0.001)
         if(EuclieanDistance(GoalNode[0],GoalNode[1],Node[0],Node[1]) <= 1.5):
-            ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1,color = 'r')
+            # ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1,color = 'r')
             CurrentNode = Node
+            ax.quiver(plotX, plotY, plotX2, plotY2,units='xy' ,scale=1)
+            plt.pause(0.001)
+            plotX,plotY,plotX2,plotY2 = [],[],[],[]
             return True
         else:
             return False
@@ -163,10 +225,14 @@ def ActionMove(Node):
         NewTheta = i*Theta
         NewX = Node[0] + StepSize*(math.cos(math.radians(NewTheta)))
         NewY = Node[1] + StepSize*(math.sin(math.radians(NewTheta)))
-        CostToCome = Node[5] + EuclieanDistance(NewX,NewY,Node[0],Node[1])
-        CostNode = CostToCome + EuclieanDistance(NewX,NewY,GoalNode[0],GoalNode[1])
-        NewCost = CostNode
-        NewNode = [round(NewX,2),round(NewY,2),int(NewTheta),round(NewCost,2),CurrentIndex,CostToCome]
+
+        # CostToCome = Node[5] + EuclieanDistance(NewX,NewY,Node[0],Node[1])
+        CostToCome = Node[5] + 1
+        NewCost = CostToCome + EuclieanDistance(NewX,NewY,GoalNode[0],GoalNode[1])
+
+        # CostNode = CostToCome + EuclieanDistance(NewX,NewY,GoalNode[0],GoalNode[1])
+        # NewCost = CostNode
+        NewNode = [round(NewX,2),round(NewY,2),int(NewTheta),NewCost,CurrentIndex,CostToCome]
         Goal = AddNode(NewNode)
         if(Goal):
             return True
@@ -191,8 +257,6 @@ def BackTrack(Node):
         print(VisitedNodes[Path[0][4]])
         Path.insert(0,VisitedNodes[CurrentNode[4]])
         ax.quiver(Path[0][0], Path[0][1], CurrentNode[0]-Path[0][0], CurrentNode[1]-Path[0][1],  units='xy' ,scale=1,color = 'r')
-
-        # ax.quiver(CurrentNode[0],CurrentNode[1],Path[0][0]-CurrentNode[0], Path[0][1]-CurrentNode[1],  units='xy' ,scale=1,color = 'r')
         # plt.pause(0.1)
         CurrentNode=Path[0]
     Path.insert(0,VisitedNodes[0])
@@ -216,11 +280,9 @@ plt.title('How to plot a vector in matplotlib ?',fontsize=10)
 Goal = False
 
 
-# AddNodes(NewList)
-# print("Unvisited",UnvisitedNodes)
-# plt.matshow(Info)
-# plt.show()
-#
+X,Y = GenerateMap()
+GenerateWorkspace(X,Y)
+StartTime = time.time()
 print("Length",len(UnvisitedNodes), "Unvisited",UnvisitedNodes)
 CurrentNode = copy.deepcopy(StartNode)
 print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
@@ -235,15 +297,16 @@ while(1):
 
     CurrentIndex += 1
     CurrentNode = UnvisitedNodes[0]
-    print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
+    # print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
     # print("UnvisitedNodes",UnvisitedNodes)
     # print("VisitedNodes",VisitedNodes)
 Path = BackTrack(CurrentNode)
 print(Path)
-#
+EndTime = time.time()
+print("Solved" , EndTime - StartTime)
 #
 plt.savefig('how_to_plot_a_vector_in_matplotlib_fig3.png', bbox_inches='tight')
 #
 print("SAved")
-# plt.show()
+plt.show()
 plt.close()
