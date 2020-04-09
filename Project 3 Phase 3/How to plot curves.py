@@ -24,7 +24,7 @@ def plot_curve(Xi,Yi,Thetai,UL,UR):
 # Xs, Ys: Start point coordinates for plot function
 # Xn, Yn, Thetan: End point coordintes
 
-    while t<1:
+    while t<1.5:
         t = t + dt
         Xs = Xn
         Ys = Yn
@@ -119,9 +119,9 @@ for action in actions:
     X2=plot_curve(X1[0],X1[1],X1[2], action[0],action[1])
     print("x2",X2)
     plt.scatter(X2[0],X2[1])
-    X2=plot_curve1(X1[0],X1[1],X1[2], action[0],action[1])
-    plt.scatter(X2[0],X2[1])
-    print("x21",X2)
+    # X2=plot_curve1(X1[0],X1[1],X1[2], action[0],action[1])
+    # plt.scatter(X2[0],X2[1])
+    # print("x21",X2)
     plt.pause(0.1)
 plt.show()
 plt.close()

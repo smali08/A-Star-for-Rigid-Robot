@@ -11,79 +11,127 @@ UnvisitedNodes = []
 VisitedNodes = []
 CurrentIndex = 0
 
+Radius = 354/2
+Clearance = 0
 #Function to get Radius, Clearance, Step-size and Theta values
 def GetParameters():
     Clearance = int(input("Enter the Clearance of the robot: "))
     print("Enter the wheel RPM's separated by space: RPM1 RPM2")
     RPM = list(map(int, input().split()))
-    return Clearance,RPM
+    Radius = 354/2
+    return Clearance,RPM,Radius
 # print(GetParameters())
 #To check the given node is in Obstacle Space
 def InObstacleSpace(Node):
     x = Node[0]
     y = Node[1]
-    if(x**2 + y**2 <= 1000):
+
+    if(x**2 + y**2 <= (1000+Radius+Clearance)**2):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif((x-3100)**2 + (y-2100) <= 1000):
+    elif((x+2000)**2 + (y+3000)**2 <= (1000+Radius+Clearance)**2):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif((x-7100)**2 + (y-2100) <= 1000):
+    elif((x-2000)**2 + (y+3000)**2 <= (1000+Radius+Clearance)**2):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif((x-7100)**2 + (y-8100) <= 1000):
+    elif((x-2000)**2 + (y-3000)**2 <= (1000+Radius+Clearance)**2):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
+    elif(((3750+Radius+Clearance)>=y>=(2250-Radius-Clearance)) and ((-2750-Radius-Clearance)<=x<=(-1250+Radius+Clearance))):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif(((750+Radius+Clearance)>=y>=(-750-Radius-Clearance)) and ((-4750-Radius-Clearance)<=x<=(-3250+Radius+Clearance))):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif(((750+Radius+Clearance)>=y>=(-750-Radius-Clearance)) and ((3250-Radius-Clearance)<=x<=(4750+Radius+Clearance))):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif((-5100)<=x<=(-5000+Radius+Clearance)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif((5100)>=x>=(5000-Radius-Clearance)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif((-5100)<=y<=(-5000+Radius+Clearance)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif((5100)>=y>=(5000-Radius-Clearance)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    # if(x**2 + y**2 <= 1000):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
     # elif((x-3100)**2 + (y-2100) <= 1000):
     #     return True
     #     Obstaclesx.append(x)
     #     Obstaclesy.append(y)
-    elif((8850>=y>=7350) and (3850>=x>=2350)):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    elif((5850>=y>=4350) and (1850>=x>=350)):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    elif((5850>=y>=4350) and (9850>=x>=8350)):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-
-
-    if(x**2 + y**2 <= 1000):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    elif((x+2000)**2 + (y+3000) <= 1000):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    elif((x-2000)**2 + (y+3000) <= 1000):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    elif((x-2000)**2 + (y-3000) <= 1000):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    elif((3750>=y>=2250) and (-2750>=x>=-1250)):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    elif((750>=y>=-750) and (-4750>=x>=-3250)):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
-    elif((750>=y>=-750) and (3250>=x>=4750)):
-        return True
-        Obstaclesx.append(x)
-        Obstaclesy.append(y)
+    # elif((x-7100)**2 + (y-2100) <= 1000):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((x-7100)**2 + (y-8100) <= 1000):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # # elif((x-3100)**2 + (y-2100) <= 1000):
+    # #     return True
+    # #     Obstaclesx.append(x)
+    # #     Obstaclesy.append(y)
+    # elif((8850>=y>=7350) and (3850>=x>=2350)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((5850>=y>=4350) and (1850>=x>=350)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((5850>=y>=4350) and (9850>=x>=8350)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    #
+    #
+    # if(x**2 + y**2 <= 1000):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((x+2000)**2 + (y+3000) <= 1000):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((x-2000)**2 + (y+3000) <= 1000):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((x-2000)**2 + (y-3000) <= 1000):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((3750>=y>=2250) and (-2750>=x>=-1250)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((750>=y>=-750) and (-4750>=x>=-3250)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((750>=y>=-750) and (3250>=x>=4750)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
 
     # if ((y-(-1.2*x))>=(210 - Clearance - Radius) and (y-(1.2*x))>=(30 - Clearance - Radius) and (y-(-1.4*x))<=(290 + Clearance + Radius) and (y-(-2.6*x))>=(280 - Clearance - Radius) and y<=(185 + Clearance + Radius)):
     #     return True
@@ -128,118 +176,136 @@ def InObstacleSpace(Node):
     else:
         return False
 
+# print(InObstacleSpace([0,-]))
 #Function to get the Start Position
 def GetStart():
     global StartNode
     while(True):
         print("Enter the co-ordinates of starting point separated by space  (x,y,theta_s) --> x y theta_s:")
         StartNode = list(map(int, input().split()))
-        if(len(StartNode)==3):
-            StartNode = [StartNode[0] + StepSize*(math.cos(math.radians(StartNode[2]))),StartNode[1] + StepSize*(math.sin(math.radians(StartNode[2]))),0,0,0,0]
+        if(len(StartNode)==3 and not(InObstacleSpace(StartNode))):
+            # StartNode = [StartNode[0] + StepSize*(math.cos(math.radians(StartNode[2]))),StartNode[1] + StepSize*(math.sin(math.radians(StartNode[2]))),0,0,0,0]
         # print("Start",StartNode)
-            if(not(InObstacleSpace(StartNode))):
-                break
-            else:
-                print("Please provide valid starting point")
+            break
         else:
             print("Please provide valid starting point")
     return StartNode
 
+StartNode = GetStart()
 #Function to get the Goal Position
 def GetGoal():
     global GoalNode
     while(True):
-        print("Enter the co-ordinates of goal point separated by space  (x,y,theta_g) --> x y theta_g: ")
+        print("Enter the co-ordinates of goal point separated by space  (x,y) --> x y : ")
         GoalNode = list(map(int, input().split()))
         # StartNode = [GoalNode[0] + StepSize*(math.cos(math.radians(StartNode[2]))),GoalNode[1] + StepSize*(math.sin(math.radians(GoalNode[2]))),]
-        if len(GoalNode)==3 and not(InObstacleSpace(GoalNode)):
+        if len(GoalNode)==2 and not(InObstacleSpace(GoalNode)):
             break
         else:
              print("Please provide valid goal point")
     return GoalNode
-
+GoalNode = GetGoal()
 #Function to find the Euclidean Distance between two Points
 def EuclieanDistance(x2,y2,x1,y1):
     return math.sqrt((x2-x1)**2  + (y2-y1)**2)
 
 
-plt.xlim(-5100,5100)
-plt.ylim(-5100,5100)
+
 
 #Function to Genrate map to plot the Obstacles
 def GenerateMap():
     print("Entered GenerateMap")
+    XAll = np.linspace(-5100, 5100, num=200)
+    YAll = np.linspace(-5100, 5100, num=200)
     Obstaclesx,Obstaclesy = [],[]
-    for x in range(-5100,5101):
-        for y in range(-5100,5101):
-            if(x**2 + y**2 <= 1000**2):
+    for x in XAll:
+        for y in YAll:
+            if(x**2 + y**2 <= (1000+Radius+Clearance)**2):
                 # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            elif((x+2000)**2 + (y+3000)**2 <= 1000**2):
+            elif((x+2000)**2 + (y+3000)**2 <= (1000+Radius+Clearance)**2):
                 # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            elif((x-2000)**2 + (y+3000)**2 <= 1000**2):
+            elif((x-2000)**2 + (y+3000)**2 <= (1000+Radius+Clearance)**2):
                 # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            elif((x-2000)**2 + (y-3000)**2 <= 1000**2):
+            elif((x-2000)**2 + (y-3000)**2 <= (1000+Radius+Clearance)**2):
                 # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            elif((3750>=y>=2250) and (-2750<=x<=-1250)):
+            elif(((3750+Radius+Clearance)>=y>=(2250-Radius-Clearance)) and ((-2750-Radius-Clearance)<=x<=(-1250+Radius+Clearance))):
                 # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            elif((750>=y>=-750) and (-4750<=x<=-3250)):
+            elif(((750+Radius+Clearance)>=y>=(-750-Radius-Clearance)) and ((-4750-Radius-Clearance)<=x<=(-3250+Radius+Clearance))):
                 # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            elif((750>=y>=-750) and (3250<=x<=4750)):
+            elif(((750+Radius+Clearance)>=y>=(-750-Radius-Clearance)) and ((3250-Radius-Clearance)<=x<=(4750+Radius+Clearance))):
                 # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-        print("x",x , "y",y)
-    plt.scatter(Obstaclesx,Obstaclesy,color = 'b')
+            elif((-5100)<=x<=(-5000+Radius+Clearance)):
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            elif((5100)>=x>=(5000-Radius-Clearance)):
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            elif((-5100)<=y<=(-5000+Radius+Clearance)):
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+            elif((5100)>=y>=(5000-Radius-Clearance)):
+                Obstaclesx.append(x)
+                Obstaclesy.append(y)
+
     print("Exitting GenerateMap")
     return Obstaclesx,Obstaclesy
 
 Ox,Oy = GenerateMap()
-plt.show()
+# plt.show()
 #Function to plot the Workspace
 def GenerateWorkspace(Obstaclesx,Obstaclesy):
-    # plt.plot(Workspace[0],Workspace[1])
-    # plt.plot(StartNode[0], StartNode[1], "gd", markersize = '2')
-    # plt.plot(GoalNode[0], GoalNode[1], "gd", markersize = '2')
+    plt.xlim(-5100,5100)
+    plt.ylim(-5100,5100)
+    plt.plot(StartNode[0], StartNode[1], "gd", markersize = '2')
+    plt.plot(GoalNode[0], GoalNode[1], "gd", markersize = '2')
     plt.scatter(Obstaclesx,Obstaclesy,color = 'b')
     # plt.pause(10)
-
-
-NodeInfo = np.zeros(np.array((601,401,12)))  # Store visited Nodes
+GenerateWorkspace(Ox,Oy)
+plt.show()
+NodeInfo = np.zeros(np.array((205,205,11)))  # Store visited Nodes
 
 #Function to check if the node is already visited
 def IsVisitedNode(Node):
     global NodeInfo
-    TempX = Node[0] % 0.5
-    TempY = Node[1] % 0.5
-    TempTheta = int(Node[2]/Theta)
-    if(TempX < 0.25):
+    print("Temp1",[round(Node[0]/50),round(Node[1]/50),round(Node[2]/36)])
+    TempX = Node[0] % 50
+    TempY = Node[1] % 50
+    TempTheta = round((Node[2]/36),0)
+    print(TempTheta)
+    if(TempX < 25):
         TempX = Node[0] - TempX
     else:
-        TempX = Node[0] + (0.5-TempX)
-    if(TempY < 0.25):
+        TempX = Node[0] + (50-TempX)
+    if(TempY < 25):
         TempY = Node[1] - TempY
     else:
-        TempY = Node[1] + (0.5-TempY)
-
-    if(NodeInfo[int(TempX*2)][int(TempY*2)][int(TempTheta)] == 1):
+        TempY = Node[1] + (50-TempY)
+    print("Temp",[TempX,TempY,TempTheta])
+    print([int(TempX/50),int(TempY/50),int(TempTheta)])
+    if(NodeInfo[int(TempX/50)][int(TempY/50)][int(TempTheta)] == 1):
         # print("Duplicate")
         return True
     else:
-        NodeInfo[int(TempX*2)][int(TempY*2)][int(TempTheta)]=1
+        NodeInfo[int(TempX/50)][int(TempY/50)][int(TempTheta)]=1
         return False
 
+print(IsVisitedNode([26,61,178]))
+print(IsVisitedNode([32,74,-178]))
+# print(IsVisitedNode([]))
 plotX,plotY,plotX2,plotY2 = [],[],[],[]
 
 #Function to add the new node to unvisited list if it is not in obstacle space and is unvisited
@@ -249,14 +315,14 @@ def AddNode(Node):
     global plotX,plotY,plotX2,plotY2
     if not(InObstacleSpace(Node)) and  not(IsVisitedNode(Node)):
         UnvisitedNodes.append(Node)
-        plotX.append(CurrentNode[0])
-        plotY.append(CurrentNode[1])
-        plotX2.append( Node[0]-CurrentNode[0] )
-        plotY2.append( Node[1]-CurrentNode[1] )
-        if(len(plotX)%5000 == 0):
-            ax.quiver(plotX, plotY, plotX2, plotY2,units='xy' ,scale=1)
-            plt.pause(0.001)
-            plotX,plotY,plotX2,plotY2 = [],[],[],[]
+        # plotX.append(CurrentNode[0])
+        # plotY.append(CurrentNode[1])
+        # plotX2.append( Node[0]-CurrentNode[0] )
+        # plotY2.append( Node[1]-CurrentNode[1] )
+        # if(len(plotX)%5000 == 0):
+        #     ax.quiver(plotX, plotY, plotX2, plotY2,units='xy' ,scale=1)
+        #     plt.pause(0.001)
+        #     plotX,plotY,plotX2,plotY2 = [],[],[],[]
         # ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1)
         # plt.pause(0.001)
         if(EuclieanDistance(GoalNode[0],GoalNode[1],Node[0],Node[1]) <= 1.5 and Node[2]==GoalNode[2]):
@@ -268,8 +334,6 @@ def AddNode(Node):
             return True
         else:
             return False
-
-
 
 # AddNode([3.27,2.75,30,5.22,1])
 # AddNode([3.4,3.1,30,0,1])
