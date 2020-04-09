@@ -5,7 +5,7 @@ import math
 import time
 
 #Variables
-Workspace = [300,200]
+Workspace = [10200,10200]
 CurrentNode = []
 UnvisitedNodes = []
 VisitedNodes = []
@@ -13,16 +13,11 @@ CurrentIndex = 0
 
 #Function to get Radius, Clearance, Step-size and Theta values
 def GetParameters():
-    global Radius
-    global Clearance
-    global StepSize
-    global Theta
-    Radius = int(input("Enter the Radius of the robot: "))
     Clearance = int(input("Enter the Clearance of the robot: "))
-    StepSize = int(input("Enter the step-size of movement: "))
-    Theta = int(input("Enter the angle between two consecutive actions "))
-    return Radius,Clearance,StepSize,Theta
-
+    print("Enter the wheel RPM's separated by space: RPM1 RPM2")
+    RPM = list(map(int, input().split()))
+    return Clearance,RPM
+# print(GetParameters())
 #To check the given node is in Obstacle Space
 def InObstacleSpace(Node):
     x = Node[0]
@@ -262,46 +257,46 @@ def BackTrack(Node):
     plt.pause(0.001)
     return Path
 
-plt.grid()
-ax.set_aspect('equal')
-plt.xlim(0,300)
-plt.ylim(0,200)
-plt.title('A-Star Algorithm',fontsize=10)
-Goal = False
-Radius,Clearance,StepSize,Theta = GetParameters()
-X,Y = GenerateMap()
-StartNode = GetStart()
-GoalNode = GetGoal()
-GenerateWorkspace(X,Y)
-StartTime = time.time()
-# print("Length",len(UnvisitedNodes), "Unvisited",UnvisitedNodes)
-CurrentNode = copy.deepcopy(StartNode)
-# print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
-UnvisitedNodes.append(CurrentNode)
-while(1):
-    # VisitedNodes.append(UnvisitedNodes.remove(CurrentNode))
-    VisitedNodes.append(UnvisitedNodes.pop(0))
-    Goal = ActionMove(CurrentNode)
-    # print("Lenght",len(UnvisitedNodes))
-    UnvisitedNodes.sort(key = lambda x: x[3])
-    if(len(UnvisitedNodes)>4000):                                 #Removing Old nodes with higher cost to reduce the runtime
-        UnvisitedNodes = UnvisitedNodes[:3000]
-    if(Goal):
-        print("Goal",CurrentNode)
-        break
-    elif(len(UnvisitedNodes) == 0):
-        print(" No SOlution")
-        break
-
-    CurrentIndex += 1
-    CurrentNode = UnvisitedNodes[0]
-
-EndTime = time.time()
-if(Goal):
-    print("Solved" , EndTime - StartTime)
-    Path = BackTrack(CurrentNode)
-    print(Path)
-    EndTime = time.time()
-    print("Solved" , EndTime - StartTime)
-plt.show()
-plt.close()
+# plt.grid()
+# ax.set_aspect('equal')
+# plt.xlim(0,300)
+# plt.ylim(0,200)
+# plt.title('A-Star Algorithm',fontsize=10)
+# Goal = False
+# Radius,Clearance,StepSize,Theta = GetParameters()
+# X,Y = GenerateMap()
+# StartNode = GetStart()
+# GoalNode = GetGoal()
+# GenerateWorkspace(X,Y)
+# StartTime = time.time()
+# # print("Length",len(UnvisitedNodes), "Unvisited",UnvisitedNodes)
+# CurrentNode = copy.deepcopy(StartNode)
+# # print("CurrentIndex",CurrentIndex,"Node",CurrentNode)
+# UnvisitedNodes.append(CurrentNode)
+# while(1):
+#     # VisitedNodes.append(UnvisitedNodes.remove(CurrentNode))
+#     VisitedNodes.append(UnvisitedNodes.pop(0))
+#     Goal = ActionMove(CurrentNode)
+#     # print("Lenght",len(UnvisitedNodes))
+#     UnvisitedNodes.sort(key = lambda x: x[3])
+#     if(len(UnvisitedNodes)>4000):                                 #Removing Old nodes with higher cost to reduce the runtime
+#         UnvisitedNodes = UnvisitedNodes[:3000]
+#     if(Goal):
+#         print("Goal",CurrentNode)
+#         break
+#     elif(len(UnvisitedNodes) == 0):
+#         print(" No SOlution")
+#         break
+#
+#     CurrentIndex += 1
+#     CurrentNode = UnvisitedNodes[0]
+#
+# EndTime = time.time()
+# if(Goal):
+#     print("Solved" , EndTime - StartTime)
+#     Path = BackTrack(CurrentNode)
+#     print(Path)
+#     EndTime = time.time()
+#     print("Solved" , EndTime - StartTime)
+# plt.show()
+# plt.close()
