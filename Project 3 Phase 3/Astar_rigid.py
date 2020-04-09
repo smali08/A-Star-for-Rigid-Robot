@@ -22,46 +22,109 @@ def GetParameters():
 def InObstacleSpace(Node):
     x = Node[0]
     y = Node[1]
-    if ((y-(-1.2*x))>=(210 - Clearance - Radius) and (y-(1.2*x))>=(30 - Clearance - Radius) and (y-(-1.4*x))<=(290 + Clearance + Radius) and (y-(-2.6*x))>=(280 - Clearance - Radius) and y<=(185 + Clearance + Radius)):
+    if(x**2 + y**2 <= 1000):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif ((y - (1.73)*x + 135 >= 0 - Clearance - Radius) and (y + (0.58)*x - 96.35  <= 0 + Clearance + Radius) and (y - (1.73)*x - 15.54 <= 0 + Clearance + Radius) and (y + (0.58)*x - 84.81 >= 0 - Clearance - Radius)):
+    elif((x-3100)**2 + (y-2100) <= 1000):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif((x-225)**2 + (y-150)**2 <= (25 + Clearance + Radius)**2):
+    elif((x-7100)**2 + (y-2100) <= 1000):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif(((x-150)**2/(40 + Clearance + Radius)**2 + (y-100)**2/(20 + Clearance + Radius)**2) <= 1):
+    elif((x-7100)**2 + (y-8100) <= 1000):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif ((y-(0.6*x))>=(-125 - Clearance - Radius) and (y-(-0.6*x))<=(175 + Clearance + Radius) and (y-(0.6*x))<=(-95 + Clearance + Radius) and (y-(-0.6*x))>=(145 - Clearance - Radius)):
+    # elif((x-3100)**2 + (y-2100) <= 1000):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    elif((8850>=y>=7350) and (3850>=x>=2350)):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif((y-(13*x))<=(-140 + Clearance + Radius) and (y-(1*x))>=(100 - Clearance - Radius) and y <= (185 + Clearance + Radius) and (y-(1.4*x)>=(80 - Clearance - Radius))):
+    elif((5850>=y>=4350) and (1850>=x>=350)):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif ((y <=  Clearance + Radius)):
+    elif((5850>=y>=4350) and (9850>=x>=8350)):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif ((x <= Clearance + Radius)):
+
+
+    if(x**2 + y**2 <= 1000):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif ((x >= 300  - (Clearance + Radius)  )):
+    elif((x+2000)**2 + (y+3000) <= 1000):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
-    elif ((200 >= y >=  200 - (Clearance + Radius))):
+    elif((x-2000)**2 + (y+3000) <= 1000):
         return True
         Obstaclesx.append(x)
         Obstaclesy.append(y)
+    elif((x-2000)**2 + (y-3000) <= 1000):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif((3750>=y>=2250) and (-2750>=x>=-1250)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif((750>=y>=-750) and (-4750>=x>=-3250)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+    elif((750>=y>=-750) and (3250>=x>=4750)):
+        return True
+        Obstaclesx.append(x)
+        Obstaclesy.append(y)
+
+    # if ((y-(-1.2*x))>=(210 - Clearance - Radius) and (y-(1.2*x))>=(30 - Clearance - Radius) and (y-(-1.4*x))<=(290 + Clearance + Radius) and (y-(-2.6*x))>=(280 - Clearance - Radius) and y<=(185 + Clearance + Radius)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif ((y - (1.73)*x + 135 >= 0 - Clearance - Radius) and (y + (0.58)*x - 96.35  <= 0 + Clearance + Radius) and (y - (1.73)*x - 15.54 <= 0 + Clearance + Radius) and (y + (0.58)*x - 84.81 >= 0 - Clearance - Radius)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((x-225)**2 + (y-150)**2 <= (25 + Clearance + Radius)**2):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif(((x-150)**2/(40 + Clearance + Radius)**2 + (y-100)**2/(20 + Clearance + Radius)**2) <= 1):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif ((y-(0.6*x))>=(-125 - Clearance - Radius) and (y-(-0.6*x))<=(175 + Clearance + Radius) and (y-(0.6*x))<=(-95 + Clearance + Radius) and (y-(-0.6*x))>=(145 - Clearance - Radius)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif((y-(13*x))<=(-140 + Clearance + Radius) and (y-(1*x))>=(100 - Clearance - Radius) and y <= (185 + Clearance + Radius) and (y-(1.4*x)>=(80 - Clearance - Radius))):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif ((y <=  Clearance + Radius)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif ((x <= Clearance + Radius)):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif ((x >= 300  - (Clearance + Radius)  )):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
+    # elif ((200 >= y >=  200 - (Clearance + Radius))):
+    #     return True
+    #     Obstaclesx.append(x)
+    #     Obstaclesy.append(y)
     else:
         return False
 
@@ -99,60 +162,56 @@ def GetGoal():
 def EuclieanDistance(x2,y2,x1,y1):
     return math.sqrt((x2-x1)**2  + (y2-y1)**2)
 
+
+plt.xlim(-5100,5100)
+plt.ylim(-5100,5100)
+
 #Function to Genrate map to plot the Obstacles
 def GenerateMap():
+    print("Entered GenerateMap")
     Obstaclesx,Obstaclesy = [],[]
-    for x in range(301):
-        for y in range(201):
-
-            if((x-225)**2 + (y-150)**2 <= (25 + Clearance + Radius)**2):
-                # Map[200-y][x] = 1
+    for x in range(-5100,5101):
+        for y in range(-5100,5101):
+            if(x**2 + y**2 <= 1000**2):
+                # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            if(((x-150)**2/(40 + Clearance + Radius)**2 + (y-100)**2/(20 + Clearance + Radius)**2) <= 1):
-                # Map[200-y][x] = 1
+            elif((x+2000)**2 + (y+3000)**2 <= 1000**2):
+                # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            if ((y-(0.6*x))>=(-125 - Clearance - Radius) and (y-(-0.6*x))<=(175 + Clearance + Radius) and (y-(0.6*x))<=(-95 + Clearance + Radius) and (y-(-0.6*x))>=(145 - Clearance - Radius)):
-                # Map[200-y][x] = 1
+            elif((x-2000)**2 + (y+3000)**2 <= 1000**2):
+                # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            if((y-(13*x))<=(-140 + Clearance + Radius) and (y-(1*x))>=(100 - Clearance - Radius) and y <= (185 + Clearance + Radius) and (y-(1.4*x)>=(80 - Clearance - Radius))):
-                # Map[200-y][x] = 1
+            elif((x-2000)**2 + (y-3000)**2 <= 1000**2):
+                # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            if ((y-(-1.2*x))>=(210 - Clearance - Radius) and (y-(1.2*x))>=(30 - Clearance - Radius) and (y-(-1.4*x))<=(290 + Clearance + Radius) and (y-(-2.6*x))>=(280 - Clearance - Radius) and y<=(185 + Clearance + Radius)):
-                # Map[200-y][x] = 1
+            elif((3750>=y>=2250) and (-2750<=x<=-1250)):
+                # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            if ((y - (1.73)*x + 135 >= 0 - Clearance - Radius) and (y + (0.58)*x - 96.35  <= 0 + Clearance + Radius) and (y - (1.73)*x - 15.54 <= 0 + Clearance + Radius) and (y + (0.58)*x - 84.81 >= 0 - Clearance - Radius)):
-                # Map[200-y][x] = 1
+            elif((750>=y>=-750) and (-4750<=x<=-3250)):
+                # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            if ((y <=  Clearance + Radius)):
-                # Map[200-y][x] = 1
+            elif((750>=y>=-750) and (3250<=x<=4750)):
+                # return True
                 Obstaclesx.append(x)
                 Obstaclesy.append(y)
-            if ((x <= Clearance + Radius)):
-                # Map[200-y][x] = 1
-                Obstaclesx.append(x)
-                Obstaclesy.append(y)
-            if ((x >= 300  - (Clearance + Radius)  )):
-                # Map[200 - y][x] = 1
-                Obstaclesx.append(x)
-                Obstaclesy.append(y)
-            if ((200 >= y >=  200 - (Clearance + Radius))):
-                # Map[200-y][x] = 1
-                Obstaclesx.append(x)
-                Obstaclesy.append(y)
-
+        print("x",x , "y",y)
+    plt.scatter(Obstaclesx,Obstaclesy,color = 'b')
+    print("Exitting GenerateMap")
     return Obstaclesx,Obstaclesy
 
+Ox,Oy = GenerateMap()
+plt.show()
 #Function to plot the Workspace
 def GenerateWorkspace(Obstaclesx,Obstaclesy):
-    plt.plot(Workspace[0],Workspace[1])
-    plt.plot(StartNode[0], StartNode[1], "gd", markersize = '2')
-    plt.plot(GoalNode[0], GoalNode[1], "gd", markersize = '2')
+    # plt.plot(Workspace[0],Workspace[1])
+    # plt.plot(StartNode[0], StartNode[1], "gd", markersize = '2')
+    # plt.plot(GoalNode[0], GoalNode[1], "gd", markersize = '2')
     plt.scatter(Obstaclesx,Obstaclesy,color = 'b')
     # plt.pause(10)
 
