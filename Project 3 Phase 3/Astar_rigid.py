@@ -10,8 +10,8 @@ CurrentNode = []
 UnvisitedNodes = []
 VisitedNodes = []
 CurrentIndex = 0
-StartNode = [-4200,-4200,0,0,0,0]
-GoalNode = [3400,3400]
+StartNode = [-4600,-4600,0,0,0,0]
+GoalNode = [4600,4600]
 Radius = 354/2
 Clearance = 0
 Rpm1 = 50*3.14/30
@@ -341,6 +341,7 @@ def AddNode(Node,px,py):
         if(EuclieanDistance(GoalNode[0],GoalNode[1],Node[0],Node[1]) <= 50):
             # ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1,color = 'r')
             CurrentNode = Node
+            plt.scatter(Node[0],Node[1])
             # ax.quiver(plotX, plotY, plotX2, plotY2,units='xy' ,scale=1)
             # plt.pause(0.001)
             # plotX,plotY,plotX2,plotY2 = [],[],[],[]
@@ -358,7 +359,7 @@ def GenerateNode(Node,action):
     t=0
     r=38
     L=317.5
-    dt=0.3
+    dt=0.1
 
     Xn=Node[0]
     Yn=Node[1]
@@ -391,6 +392,44 @@ def GenerateNode(Node,action):
     NewNode = [Xn,Yn,Thetan,NewCost,CostToCome,CurrentIndex,action]
     # plt.pause(0.0001)
     return NewNode,plotx,ploty
+
+def PlotPath(Node,action):
+    t=0
+    r=38
+    L=317.5
+    dt=0.1
+
+    Xn=Node[0]
+    Yn=Node[1]
+    Thetan = 3.14 * Node[2] / 180
+    # Cost = 0
+# Xi, Yi,Thetai: Input point's coordinates
+# Xs, Ys: Start point coordinates for plot function
+# Xn, Yn, Thetan: End point coordintes
+#     plotx = []
+#     ploty = []
+    while t<1.5:
+        t = t + dt
+        Xs = Xn
+        Ys = Yn
+        Xn += 0.5*r * (action[0] + action[1]) * math.cos(Thetan) * dt
+        Yn += 0.5*r * (action[0] + action[1]) * math.sin(Thetan) * dt
+        Thetan += (r / L) * (action[1] - action[0]) * dt
+        # Cost += EuclieanDistance(Xn,Yn,Xs,Ys)
+        # if(InObstacleSpace([Xn,Yn])):
+        #     plotx = []
+        #     ploty = []
+        #     break
+        # plotx.append([Xs,Xn])
+        # ploty.append([Ys,Yn])
+        plt.plot([Xs, Xn], [Ys, Yn], color="blue")
+    # Cost1 = EuclieanDistance(Xn,Yn,Xi,Yi)
+    # Thetan = 180 * (Thetan) / 3.14
+    # CostToCome = Node[4] + Cost
+    # NewCost = CostToCome + EuclieanDistance(Xn,Yn,GoalNode[0],GoalNode[1])
+    # NewNode = [Xn,Yn,Thetan,NewCost,CostToCome,CurrentIndex,action]
+    # plt.pause(0.0001)
+    # return NewNode,plotx,ploty
 
 actions=[[0,Rpm1],[Rpm1,0],[Rpm1,Rpm1],[0,Rpm2],[Rpm2,0],[Rpm2,Rpm2],[Rpm1,Rpm2],[Rpm2,Rpm1]]
 #Function to generate possible motions based on parameters
@@ -435,6 +474,7 @@ def BackTrack(Node):
         # ax.quiver(Path[0][0], Path[0][1], CurrentNode[0]-Path[0][0], CurrentNode[1]-Path[0][1],  units='xy' ,scale=1,color = 'r')
         CurrentNode=Path[0]
     Path.insert(0,VisitedNodes[0])
+
     # ax.quiver(Path[0][0], Path[0][1], CurrentNode[0]-Path[0][0], CurrentNode[1]-Path[0][1],  units='xy' ,scale=1,color = 'r')
     plt.pause(0.001)
     return Path
@@ -479,6 +519,10 @@ if(Goal):
     # print("Solved" , EndTime - StartTime)
     Path = BackTrack(CurrentNode)
     print("PAth",Path)
+    for i in range(len(Path)-1):
+        print("Node",Path[i],"Speed",Path[i+1][6])
+        PlotPath(Path[i],Path[i+1][6])
+
 #     EndTime = time.time()
 #     print("Solved" , EndTime - StartTime)
 plt.show()
