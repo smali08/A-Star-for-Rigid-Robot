@@ -14,7 +14,7 @@ def plot_curve(Xi,Yi,Thetai,UL,UR):
     t=0
     r=38
     L=317.5
-    dt=0.1
+    dt=0.3
 
     Xn=Xi
     Yn=Yi
@@ -40,26 +40,25 @@ def plot_curve1(Xi,Yi,Thetai,UL,UR):
     t=0
     r=38
     L=317.5
-    dt=1
-
-    Xs=Xi
-    Ys=Yi
+    dt=0.3
+    Xn=Xi
+    Yn=Yi
     Thetan = 3.14 * Thetai / 180
     Cost = 0
     # Xi, Yi,Thetai: Input point's coordinates
     # Xs, Ys: Start point coordinates for plot function
     # Xn, Yn, Thetan: End point coordintes
 
-    # while t<1:
-    #     t = t + dt
-    # Xs = Xn
-    # Ys = Yn
-    Thetan = (r / L) * (UR - UL) * dt
-    Xn = 0.5*r * (UL + UR) * math.cos(Thetan) * dt
-    Yn = 0.5*r * (UL + UR) * math.sin(Thetan) * dt
+    while t<1.5:
+        t = t + dt
+        Xs = Xn
+        Ys = Yn
+        Thetan = (r / L) * (UR - UL) * dt
+        Xn = 0.5*r * (UL + UR) * math.cos(Thetan) * dt
+        Yn = 0.5*r * (UL + UR) * math.sin(Thetan) * dt
 
-    Cost = EuclieanDistance(Xn,Yn,Xs,Ys)
-    plt.plot([Xs, Xn], [Ys, Yn], color="blue")
+        Cost += EuclieanDistance(Xn,Yn,Xs,Ys)
+        plt.plot([Xs, Xn], [Ys, Yn], color="blue")
 # Cost1 = EuclieanDistance(Xn,Yn,Xi,Yi)
     Thetan = 180 * (Thetan) / 3.14
     return Xn, Yn, Thetan, Cost
