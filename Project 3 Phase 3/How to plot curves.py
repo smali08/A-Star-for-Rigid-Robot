@@ -14,7 +14,7 @@ def plot_curve(Xi,Yi,Thetai,UL,UR):
     t=0
     r=38
     L=317.5
-    dt=0.3
+    dt=0.1
 
     Xn=Xi
     Yn=Yi
@@ -33,9 +33,9 @@ def plot_curve(Xi,Yi,Thetai,UL,UR):
         Thetan += (r / L) * (UR - UL) * dt
         Cost += EuclieanDistance(Xn,Yn,Xs,Ys)
         plt.plot([Xs, Xn], [Ys, Yn], color="blue")
-    # Cost1 = EuclieanDistance(Xn,Yn,Xi,Yi)
+    Cost1 = EuclieanDistance(Xn,Yn,Xi,Yi)
     Thetan = 180 * (Thetan) / 3.14
-    return Xn, Yn, Thetan, Cost
+    return Xn, Yn, Thetan, Cost,Cost1
 def plot_curve1(Xi,Yi,Thetai,UL,UR):
     t=0
     r=38
@@ -59,9 +59,10 @@ def plot_curve1(Xi,Yi,Thetai,UL,UR):
 
         Cost += EuclieanDistance(Xn,Yn,Xs,Ys)
         plt.plot([Xs, Xn], [Ys, Yn], color="blue")
-# Cost1 = EuclieanDistance(Xn,Yn,Xi,Yi)
+
+    Cost1 = EuclieanDistance(Xn,Yn,Xi,Yi)
     Thetan = 180 * (Thetan) / 3.14
-    return Xn, Yn, Thetan, Cost
+    return Xn, Yn, Thetan, Cost,Cost1
 
 # def plot_curve(X0,Y0,Theta0,UL,UR):
 #     t=0
@@ -102,7 +103,7 @@ plt.ylim(-10000,10000)
 plt.title('How to plot a vector in matplotlib ?',fontsize=10)
 
 
-actions=[[0,Rpm1],[Rpm1,0],[Rpm1,Rpm1],[0,Rpm2],[Rpm2,0],[Rpm2,Rpm2],[Rpm1,Rpm2],[Rpm2,Rpm1]]
+actions=[[0,Rpm1],[Rpm1,0],[Rpm1,Rpm1],[0,Rpm2],[Rpm2,0],[Rpm1,Rpm2],[Rpm2,Rpm1],[Rpm2,Rpm2],]
 
 # for action in actions:
 #     X1= plot_curve(0,0,0, action[0],action[0])# (0,0,45) hypothetical start configuration

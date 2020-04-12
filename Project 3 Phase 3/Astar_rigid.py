@@ -282,7 +282,7 @@ def GenerateWorkspace(Obstaclesx,Obstaclesy):
 # GenerateWorkspace(Ox,Oy)
 # plt.show()
 # NodeInfo = np.zeros(np.array((205,205,11)))  # Store visited Nodes
-
+# NodeInfo = np.zeros(np.array((1021,1021)))  # Store visited Nodes
 NodeInfo = np.zeros(np.array((205,205)))  # Store visited Nodes
 #Function to check if the node is already visited
 def IsVisitedNode(Node):
@@ -302,11 +302,14 @@ def IsVisitedNode(Node):
     #     TempY = Node[1] + (50-TempY)
     # print("Temp",[TempX,TempY,TempTheta])
     # print([int(TempX/50),int(TempY/50),int(TempTheta)])
+    # if(NodeInfo[int(Node[0]/10)][int(Node[1]/10)] == 1):
     if(NodeInfo[int(Node[0]/50)][int(Node[1]/50)] == 1):
     # if(NodeInfo[int(Node[0]/50)][int(Node[1]/50)][int(Node[2]/36)] == 1):
     #     print("Duplicate")
         return True
     else:
+        # NodeInfo[int(Node[0]/10)][int(Node[1]/10)] = 1
+
         NodeInfo[int(Node[0]/50)][int(Node[1]/50)] = 1
 
         # NodeInfo[int(Node[0]/50)][int(Node[1]/50)][int(Node[2]/36)] = 1
@@ -331,9 +334,7 @@ def AddNode(Node,px,py):
         # plotY2.append( Node[1]-CurrentNode[1] )
         if(len(plotX)%100 == 0):
             for i in plotX:
-                # print("Len",len(i))
                 plt.plot(i[0], i[1], color="r")
-                # ax.quiver(plotX, plotY, plotX2, plotY2,units='xy' ,scale=1)
             plt.pause(0.0001)
             plotX,plotY= [],[]
         # ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1)
@@ -341,7 +342,12 @@ def AddNode(Node,px,py):
         if(EuclieanDistance(GoalNode[0],GoalNode[1],Node[0],Node[1]) <= 50):
             # ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1,color = 'r')
             CurrentNode = Node
+            for i in plotX:
+                plt.plot(i[0], i[1], color="r")
+            plt.pause(0.0001)
+            plotX,plotY= [],[]
             plt.scatter(Node[0],Node[1])
+
             # ax.quiver(plotX, plotY, plotX2, plotY2,units='xy' ,scale=1)
             # plt.pause(0.001)
             # plotX,plotY,plotX2,plotY2 = [],[],[],[]
@@ -431,7 +437,7 @@ def PlotPath(Node,action):
     # plt.pause(0.0001)
     # return NewNode,plotx,ploty
 
-actions=[[0,Rpm1],[Rpm1,0],[Rpm1,Rpm1],[0,Rpm2],[Rpm2,0],[Rpm2,Rpm2],[Rpm1,Rpm2],[Rpm2,Rpm1]]
+actions=[[0,Rpm1],[Rpm1,0],[Rpm1,Rpm1],[0,Rpm2],[Rpm2,0],[Rpm1,Rpm2],[Rpm2,Rpm1],[Rpm2,Rpm2]]
 #Function to generate possible motions based on parameters
 def ActionMove(Node):
     for action in actions:
