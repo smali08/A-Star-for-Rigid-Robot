@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import numpy as np
 import matplotlib.pyplot as plt
 import copy
@@ -8,15 +10,22 @@ import math
 # import matplotlib.pyplot as plt
 # import matplotlib.lines as mlines
 # from heapq import heappush, heappop
-# import rospy
-# from geometry_msgs.msg import Point, Twist, PoseStamped
-# from math import pow, atan2, sqrt
-# import time
+import rospy
+from geometry_msgs.msg import Point, Twist, PoseStamped
+#from math import pow, atan2, sqrt
+import time
 
+#cmd_vel_topic_name = nh_.param<std::string>("cmd_vel_topic_name", "");
 
+#cmd_vel_pub_   = #nh_.advertise<geometry_msgs::Twist>(cmd_vel_topic_name, 10);
+
+#pub = rospy.Publisher('chatter', String, queue_size=10)
+
+rospy.init_node('turtlebot_project', anonymous=True)
+cmd_vel_pub_ = rospy.Publisher('/cmd_vel', Twist, queue_size = 10)
 # move robot function
-# def move_robot(pub_vel, dvx, dvy, dw):
-#     """
+def move_robot(pub_vel, dvx, dvy, dw):
+     """
 #     Inputs:
 #
 #     pub_vel: the ROS publisher which publishes the information to topic 'cmd_vel_mux/input/navi'
@@ -25,15 +34,19 @@ import math
 #     dw: angular velocity
 #     """
 #
-#     r = rospy.Rate(100)
-#     vel_value = Twist()
-#     velocity = np.sqrt(dvx * dvx + dvy * dvy) / 100.0
-#     endTime = rospy.Time.now() + rospy.Duration(1)
-#     while rospy.Time.now() < endTime:
-#         vel_value.linear.x = velocity
-#         vel_value.angular.z = dw
-#         pub_vel.publish(vel_value)
-#         r.sleep()
+
+     r = rospy.Rate(100)
+     vel_value = Twist()
+     velocity = (np.sqrt(dvx * dvx + dvy * dvy))/1000
+     endTime = rospy.Time.now() + rospy.Duration(1.5)
+     while rospy.Time.now() < endTime:
+         vel_value.linear.x = velocity
+         vel_value.angular.z = dw
+         cmd_vel_pub_.publish(vel_value)
+         r.sleep()
+     vel_value.linear.x = 0
+     vel_value.angular.z = 0
+     cmd_vel_pub_.publish(vel_value)
 
 #Variables
 Workspace = [10200,10200]
@@ -41,10 +54,10 @@ CurrentNode = []
 UnvisitedNodes = []
 VisitedNodes = []
 CurrentIndex = 0
-StartNode = [-4600,-4600,0,0,0,0,0,0]
-GoalNode = [-3800,-3800]
-Radius = 354/2
-Clearance = 0
+StartNode = [-4000,-4500,0,0,0,0,0,0]
+GoalNode = [4000,2500]
+Radius = 220
+Clearance = 200
 Rpm1 = 50*3.14/30
 Rpm2 = 100*3.14/30
 #Function to get Radius, Clearance, Step-size and Theta values
@@ -309,10 +322,10 @@ def GenerateWorkspace(Obstaclesx,Obstaclesy):
     plt.plot(StartNode[0], StartNode[1], "gd", markersize = '2')
     plt.plot(GoalNode[0], GoalNode[1], "gd", markersize = '2')
     plt.scatter(Obstaclesx,Obstaclesy,color = 'b')
-    plt.pause(0.001)
+    #plt.pause(0.001)
 # GenerateWorkspace(Ox,Oy)
 # plt.show()
-# NodeInfo = np.zeros(np.array((205,205,11)))  # Store visited Nodes
+#NodeInfo = np.zeros(np.array((205,205,11)))  # Store visited Nodes
 # NodeInfo = np.zeros(np.array((1021,1021)))  # Store visited Nodes
 NodeInfo = np.zeros(np.array((205,205)))  # Store visited Nodes
 #Function to check if the node is already visited
@@ -335,7 +348,7 @@ def IsVisitedNode(Node):
     # print([int(TempX/50),int(TempY/50),int(TempTheta)])
     # if(NodeInfo[int(Node[0]/10)][int(Node[1]/10)] == 1):
     if(NodeInfo[int(Node[0]/50)][int(Node[1]/50)] == 1):
-    # if(NodeInfo[int(Node[0]/50)][int(Node[1]/50)][int(Node[2]/36)] == 1):
+    #if(NodeInfo[int(Node[0]/50)][int(Node[1]/50)][int(Node[2]/36)] == 1):
     #     print("Duplicate")
         return True
     else:
@@ -343,7 +356,7 @@ def IsVisitedNode(Node):
 
         NodeInfo[int(Node[0]/50)][int(Node[1]/50)] = 1
 
-        # NodeInfo[int(Node[0]/50)][int(Node[1]/50)][int(Node[2]/36)] = 1
+        #NodeInfo[int(Node[0]/50)][int(Node[1]/50)][int(Node[2]/36)] = 1
         return False
 
 # print(IsVisitedNode([25.01,61,178]))
@@ -366,16 +379,16 @@ def AddNode(Node,px,py):
         if(len(plotX)%100 == 0):
             for i in plotX:
                 plt.plot(i[0], i[1], color="r")
-                plt.pause(1)
+                #plt.pause(1)
             plotX,plotY= [],[]
         # ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1)
-        # plt.pause(0.001)
-        if(EuclieanDistance(GoalNode[0],GoalNode[1],Node[0],Node[1]) <= 50):
+            #plt.pause(0.001)
+        if(EuclieanDistance(GoalNode[0],GoalNode[1],Node[0],Node[1]) <= 100):
             # ax.quiver(CurrentNode[0], CurrentNode[1], Node[0]-CurrentNode[0], Node[1]-CurrentNode[1],units='xy' ,scale=1,color = 'r')
             CurrentNode = Node
             for i in plotX:
                 plt.plot(i[0], i[1], color="r")
-                plt.pause(0.0001)
+            #plt.pause(0.0001)
             plotX,plotY= [],[]
             plt.scatter(Node[0],Node[1])
 
@@ -394,14 +407,15 @@ fig, ax = plt.subplots()
 
 def GenerateNode(Node,action):
     t=0
-    r=38
-    L=317.5
+    r=33
+    L=287
     dt=0.1
 
     Xn=Node[0]
     Yn=Node[1]
     Thetan = 3.14 * Node[2] / 180
     Cost = 0
+    anim = []
 # Xi, Yi,Thetai: Input point's coordinates
 # Xs, Ys: Start point coordinates for plot function
 # Xn, Yn, Thetan: End point coordintes
@@ -415,7 +429,7 @@ def GenerateNode(Node,action):
         Yn += 0.5*r * (action[0] + action[1]) * math.sin(Thetan) * dt
         Thetan += (r / L) * (action[1] - action[0]) * dt
         Cost += EuclieanDistance(Xn,Yn,Xs,Ys)
-        anim = [0.5*r * (action[0] + action[1]) * math.cos(Thetan),0.5*r * (action[0] + action[1]) * math.sin(Thetan),(r / L) * (action[1] - action[0])]
+        #anim += [0.5*r * (action[0] + action[1]) * math.cos(Thetan),0.5*r * (action[0] + action[1]) * math.sin(Thetan),(r / L) * (action[1] - action[0])]
         if(InObstacleSpace([Xn,Yn])):
             plotx = []
             ploty = []
@@ -424,6 +438,7 @@ def GenerateNode(Node,action):
         ploty.append([Ys,Yn])
         # plt.plot([Xs, Xn], [Ys, Yn], color="blue")
     # Cost1 = EuclieanDistance(Xn,Yn,Xi,Yi)
+    anim = [0.5*r * (action[0] + action[1]) * math.cos(Thetan),0.5*r * (action[0] + action[1]) * math.sin(Thetan),(r / L) * (action[1] - action[0])] 
     Thetan = 180 * (Thetan) / 3.14
     CostToCome = Node[4] + Cost
     NewCost = CostToCome + EuclieanDistance(Xn,Yn,GoalNode[0],GoalNode[1])
@@ -433,8 +448,8 @@ def GenerateNode(Node,action):
 
 def PlotPath(Node,action):
     t=0
-    r=38
-    L=317.5
+    r=33
+    L=287
     dt=0.1
 
     Xn=Node[0]
@@ -506,7 +521,7 @@ def BackTrack(Node):
     Path.append(Node)
     print("Path",Path,CurrentNode)
     while(Path[0][5] != 0):
-        print(VisitedNodes[Path[0][5]])
+        #print(VisitedNodes[Path[0][5]])
         Path.insert(0,VisitedNodes[CurrentNode[5]])
         # print("NewPAth")
         # ax.quiver(Path[0][0], Path[0][1], CurrentNode[0]-Path[0][0], CurrentNode[1]-Path[0][1],  units='xy' ,scale=1,color = 'r')
@@ -514,7 +529,7 @@ def BackTrack(Node):
     Path.insert(0,VisitedNodes[0])
 
     # ax.quiver(Path[0][0], Path[0][1], CurrentNode[0]-Path[0][0], CurrentNode[1]-Path[0][1],  units='xy' ,scale=1,color = 'r')
-    # plt.pause(0.001)
+    plt.pause(0.001)
     return Path
 
 # plt.grid()
@@ -558,18 +573,24 @@ if(Goal):
     Path = BackTrack(CurrentNode)
     print("PAth",Path)
     for i in range(len(Path)-1):
-        print("Node",Path[i],"Speed",Path[i+1][6])
+        #print("Node",Path[i],"Speed",Path[i+1][6])
         PlotPath(Path[i],Path[i+1][6])
-        plt.pause(1)
+    plt.pause(0.001)
 #     EndTime = time.time()
 #     print("Solved" , EndTime - StartTime)
-plt.show()
+#plt.pause(0.001)
+#plt.close()
 Path.pop(0)
 # Path.reverse()
 for i in Path:
     j = i[7]
+    print("sad",round(j[2],4), "->",(np.sqrt(j[0]**2 + j[1]**2))/1000 )
+    move_robot(cmd_vel_pub_, j[0], j[1],j[2])
+vel_value = Twist()
+vel_value.linear.x = 0
+vel_value.angular.z = 0
+cmd_vel_pub_.publish(vel_value)
+plt.show()
+#plt.close()
 
-    print("sad",j)
-    # move_robot(pub_vel, dvx, dvy, dw)
-plt.close()
 
