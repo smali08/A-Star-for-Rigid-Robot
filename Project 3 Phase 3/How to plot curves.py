@@ -114,10 +114,10 @@ actions=[[0,Rpm1],[Rpm1,0],[Rpm1,Rpm1],[0,Rpm2],[Rpm2,0],[Rpm1,Rpm2],[Rpm2,Rpm1]
 #         plt.pause(0.1)
 
 X1= (0,0,0,0,0)# (0,0,45) hypothetical start configuration
-print("X1",X1)
+print("X1", X1)
 for action in actions:
     X2=plot_curve(X1[0],X1[1],X1[2], action[0],action[1])
-    print("x2",X2)
+    print("x2", X2)
     plt.scatter(X2[0],X2[1])
     # X2=plot_curve1(X1[0],X1[1],X1[2], action[0],action[1])
     # plt.scatter(X2[0],X2[1])
