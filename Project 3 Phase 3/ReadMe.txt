@@ -1,4 +1,5 @@
 A-star Algorithm for Rigid Differential Drive Robot
+Authors - Shesh Mali and Kumar Sambhav Mahipal
 
 Dependencies
 
