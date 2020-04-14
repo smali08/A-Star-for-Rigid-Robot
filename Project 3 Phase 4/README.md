@@ -78,5 +78,5 @@ Video-2
 ### Results
 For video-1 : The solution path involves many turns and the robot cannot achieve the exact orientation while turning hence the simulation output is not as desired.
 
-###Authors 
+### Authors 
 Shesh Mali and Kumar Sambhav Mahipal
