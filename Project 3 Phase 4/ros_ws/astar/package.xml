@@ -3,6 +3,7 @@
   <name>astar</name>
   <version>0.1.0</version>
   <description>The package to simulate turtlebot using astar path finding algorithm</description>
+  <maintainer email="sheshkmali@gmail.com">Shesh Mali</maintainer>
   <license>MIT</license>
 
 

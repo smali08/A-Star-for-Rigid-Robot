@@ -29,7 +29,7 @@ catkin_make
 -> Extract the zip folder
 -> Goto "Phase4" folder
 -> Goto "ros_ws" folder
--> copy and paste the folder "astar" at ~/catkin_ws/src
+-> copy and paste the folder "astar" at "~/catkin_ws/src"
 
 For running the code please follow instructions given below.
 ->Open Terminal
@@ -46,7 +46,11 @@ source /opt/ros/melodic/setup.bash
 source ~/catkin_ws/devel/setup.bash
 export TURTLEBOT3_MODEL= waffle
 ""NOTE : In the below mentioned command the x and y coordinate should be in m i.e range[-5.1,5.1] for both x and y and yaw must be (theta in degree)*3.14/180. The below mentioned x,y,yaw should match with the ones start co-ordinates you will provide further" 
-roslaunch astar demo.launch x:=<start point x-coordinate in m> y:=<start point y-coordinate in m> yaw:=<start angle of robot>
+roslaunch astar demo.launch x:=<start point x-coordinate in m> y:=<start point y-coordinate in m> yaw:=<start angle of robot> model:="waffle"
+For Video-1:
+roslaunch astar demo.launch x:=-4.2  y:=-3.2 yaw:=0 model:="waffle"
+For Video-2:
+roslaunch astar demo.launch x:=-4.0  y:=-4.5 yaw:=0 model:="waffle"
 
 
 Once you run the environment a second terminal will pop up in which you need to enter the following information:
@@ -60,17 +64,16 @@ Hit Enter
 
 #Submission Video Parameters:
 Video-1
--> Clearance -> 50
+-> Clearance -> 0.3
 -> RPM -> 50 100
--> Start -> -4600 -4600 0
--> Goal -> 4600 4600
+-> Start -> -4.2 -3.2 0
+-> Goal -> 0 -3.2
 
 Video-2
--> Clearance -> 50
+-> Clearance -> 0.2
 -> RPM -> 50 100
--> Start -> -4600 -4600 0
--> Goal -> 4600 4600
+-> Start -> -4.0 -4.5 0
+-> Goal -> 4.0 2.5
 
 ### Results
-The following is an example of A-star algorithm applied on a rigid robot (Start Node(in m)- (4, 3, 0), Goal Node(in m)- (-4, -3), Wheel RPM- (100, 50), Clearance(in m)- 0.2):
-![Screenshot](output.png)
+For video-1 : The solution path involves many turns and the robot cannot achieve the exact orientation while turning hence the simulation output is not as desired.
