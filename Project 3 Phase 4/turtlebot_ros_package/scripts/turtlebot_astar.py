@@ -7,28 +7,20 @@ import math
 import time
 import numpy as np
 import math
-# import matplotlib.pyplot as plt
-# import matplotlib.lines as mlines
-# from heapq import heappush, heappop
 import rospy
 from geometry_msgs.msg import Point, Twist, PoseStamped
-#from math import pow, atan2, sqrt
 import time
 
-#cmd_vel_topic_name = nh_.param<std::string>("cmd_vel_topic_name", "");
-
-#cmd_vel_pub_   = #nh_.advertise<geometry_msgs::Twist>(cmd_vel_topic_name, 10);
-
-#pub = rospy.Publisher('chatter', String, queue_size=10)
 
 rospy.init_node('turtlebot_project', anonymous=True)
 cmd_vel_pub_ = rospy.Publisher('/cmd_vel', Twist, queue_size = 10)
-# move robot function
+
+# move robot function ROS
 def move_robot(pub_vel, dvx, dvy, dw):
      """
 #     Inputs:
 #
-#     pub_vel: the ROS publisher which publishes the information to topic 'cmd_vel_mux/input/navi'
+#     cmd_pub_vel: the ROS publisher which publishes the information to topic 'cmd_vel'
 #     dvx: velocity along x-direction
 #     dvy: velocity along y-direction
 #     dw: angular velocity

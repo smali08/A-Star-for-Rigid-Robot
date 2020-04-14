@@ -10,15 +10,15 @@
     <arg name="yaw" default="0"/>
  
     <node
-        pkg="turtlebot_astar"
-        name="turtlebot_astar"
-        type="turtlebot_astar.py"
+        pkg="astar"
+        name="astar"
+        type="astar.py"
         output="screen"
         launch-prefix="gnome-terminal --command"
      />
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value ="$(find turtlebot_astar)/world/map.world"/>
+        <arg name="world_name" value ="$(find astar)/world/map.world"/>
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
 	<arg name="gui" value="true"/>
