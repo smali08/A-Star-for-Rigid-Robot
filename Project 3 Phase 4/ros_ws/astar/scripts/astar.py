@@ -20,17 +20,17 @@ cmd_vel_pub_ = rospy.Publisher('/cmd_vel', Twist, queue_size = 10)
 # Function to move robot in Gazebo by publishing velocity
 def move_robot(pub, dvx, dvy, dw):  
      r = rospy.Rate(100)
-     velocity = Twist()
-     velocity = (np.sqrt(dvx * dvx + dvy * dvy))/1000
+     vel = Twist()
+     vel_x = (np.sqrt(dvx * dvx + dvy * dvy))/1000
      endTime = rospy.Time.now() + rospy.Duration(1.5)
      while rospy.Time.now() < endTime:
-         velocity.linear.x = velocity
-         velocity.angular.z = dw
-         cmd_vel_pub_.publish(velocity)
+         vel.linear.x = vel_x
+         vel.angular.z = dw
+         cmd_vel_pub_.publish(vel)
          r.sleep()
-     velocity.linear.x = 0
-     velocity.angular.z = 0
-     cmd_vel_pub_.publish(velocity)
+     vel.linear.x = 0
+     vel.angular.z = 0
+     cmd_vel_pub_.publish(vel)
 
 
 #Variables
@@ -44,7 +44,7 @@ Rpm2 = 0
 #Function to get Clearance,RPM
 def GetParameters():
     # global Rpm1,Rpm2
-    Clearance = int(input("Enter the Clearance of the robot in m: "))
+    Clearance = float(input("Enter the Clearance of the robot in m: "))
     print("Enter the wheel RPM's separated by space: RPM1 RPM2")
     RPM = list(map(int, input().split()))
     Rpm1,Rpm2 = RPM[0]*3.14/30 , RPM[1]*3.14/30
@@ -110,7 +110,7 @@ def GetStart():
     global StartNode
     while(True):
         print("Enter the co-ordinates of starting point separated by space in m (x,y,theta(in radians) --> x y theta_s :")
-        StartNode = list(map(int, input().split()))
+        StartNode = list(map(float, input().split()))
         StartNode = [StartNode[0]*1000,StartNode[1]*1000,StartNode[2]*180/3.14]
         if(len(StartNode)==3 and not(InObstacleSpace(StartNode))):
             # StartNode = [StartNode[0],0,0,0,0]
@@ -127,7 +127,7 @@ def GetGoal():
     global GoalNode
     while(True):
         print("Enter the co-ordinates of goal point separated by space in m (x,y) --> x y : ")
-        GoalNode = list(map(int, input().split()))
+        GoalNode = list(map(float, input().split()))
         GoalNode = [GoalNode[0]*1000,GoalNode[1]*1000]
         if len(GoalNode)==2 and not(InObstacleSpace(GoalNode)):
             break
@@ -201,7 +201,7 @@ def GenerateWorkspace(Obstaclesx,Obstaclesy):
     plt.plot(StartNode[0], StartNode[1], "gd", markersize = '2')
     plt.plot(GoalNode[0], GoalNode[1], "gd", markersize = '2')
     plt.scatter(Obstaclesx,Obstaclesy,color = 'b')
-    plt.pause(0.001)
+    #plt.pause(0.001)
 # GenerateWorkspace(Ox,Oy)
 # plt.show()
 
@@ -234,13 +234,13 @@ def AddNode(Node,px,py):
         if(len(plotX)%100 == 0):
             for i in plotX:
                 plt.plot(i[0], i[1], color="r")
-            plt.pause(0.0001)
+            #plt.pause(0.0001)
             plotX= []
         if(EuclieanDistance(GoalNode[0],GoalNode[1],Node[0],Node[1]) <= 150):
             CurrentNode = Node
             for i in plotX:
                 plt.plot(i[0], i[1], color="r")
-            plt.pause(0.0001)
+            #plt.pause(0.0001)
             plotX= []
             plt.scatter(Node[0],Node[1])
             return True
@@ -379,9 +379,9 @@ Path.pop(0)
 for i in Path:
     j = i[7]
     move_robot(cmd_vel_pub_, j[0], j[1],j[2])
-velocity = Twist()
-velocity.linear.x = 0
-velocity.angular.z = 0
-cmd_vel_pub_.publish(velocity)
+vel = Twist()
+vel.linear.x = 0
+vel.angular.z = 0
+cmd_vel_pub_.publish(vel)
 plt.show()
-plt.close()
+#plt.close()
